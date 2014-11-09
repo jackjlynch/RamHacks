@@ -15,7 +15,7 @@
 
         <div class='row'>
 
-            <form name="stats_form" role="form" onsubmit="return(getAnalysis())">
+            <form name="stats_form" role="form">
                 <div class="form=group">
                     <div class='col-lg-6'>
                         <select class="form-control" id="language">
@@ -35,9 +35,9 @@
                     <br />
                     <br />
                     <br />
-                    <button type='submit' class='btn btn-primary btn-lg'><span
-                            class='glyphicon glyphicon-stats'></span> Get Stats
-                    </button>
+                    <!--<button type='button' class='btn btn-primary btn-lg'><span
+                            class='glyphicon glyphicon-stats' onclick="getAnalysis()"></span> Get Stats
+                    </button> -->
                 </div>
             </form>
         </div>
@@ -61,18 +61,20 @@
                     "</h1><br /><div id='article" + value.pk + "'></div></blockquote></div></div>")
             $.getJSON("articles/" + value.pk, function (article) {
                 $("#article" + value.pk).append(article.fields.text)
-                console.log(article)
             })
         })
     })
+    getAnalysis()
 
     function getAnalysis() {
-        $.each(article_ids, function(article_id) {
-            $.getJSON("analysis/" + article_id + "/" + $("#range").val(), function (data) {
-                $("#" + article_id).append("<small id='small" + value.pk + "'>" + "% known words.</small>" + data)
+        for (i = 0; i < article_ids.length; i++)  {
+            console.log(article_ids[i])
+            $.getJSON("analysis/" + article_ids[i] + "/" + $("#range").val(), function (data) {
+                $("#" + article_ids[i]).append("<small id='small" + article_ids[i] + "'>" + "% known words.</small>" + data)
             })
-        })
+        }
     }
+
 </script>
 
 

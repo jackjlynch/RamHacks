@@ -5,6 +5,7 @@ from foreignArticleFinder.crawler import Crawler
 from django.core import serializers
 import json
 from foreignArticleFinder.language_stats import Reader
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
@@ -33,7 +34,11 @@ def source(request, source_id):
 
 
 def analysis(request, article_id, range):
-    article = get_object_or_404(Article, article_id)
-    reader = Reader(article.language)
+    article = get_object_or_404(Article, pk=article_id)
+    try:
+        return HttpResponse(json.dumps(json.loads(serializers.serialize("json", [Analysis.objects.get(article=article, range=range),]))[0]))
+    except ObjectDoesNotExist:
+        reader = Reader(article.language)
+        result = Analysis(article=article, language=article.language, unknownWords=reader.get_stats(article, int(range)), range=int(range), wordcount=article.wordcount)
 
-    result = Analysis(article=article, language=article.language, unknownWords=reader.get_stats(article, range), range=range, wordcount=article.wordcount)
+        return HttpResponse(json.dumps(json.loads(serializers.serialize("json", [result, ]))[0]))
