@@ -58,22 +58,26 @@
         $.each(data, function (key, value) {
             article_ids.push(value.pk)
             $("#test").append("<div class='row'><div class='col-lg-12'><blockquote id='" + value.pk + "'><h1>" + value.fields.title +
-                    "</h1><br /><div id='article" + value.pk + "'></div></blockquote></div></div>")
+                    "</h1><br /><div id='article" + value.pk + "'></div><small id='small" + value.pk + "'></small></blockquote></div></div>")
             $.getJSON("articles/" + value.pk, function (article) {
                 $("#article" + value.pk).append(article.fields.text)
             })
         })
+        getAnalysis()
     })
-    getAnalysis()
+
 
     function getAnalysis() {
         for (i = 0; i < article_ids.length; i++)  {
-            console.log(article_ids[i])
-            $.getJSON("analysis/" + article_ids[i] + "/" + $("#range").val(), function (data) {
-                $("#" + article_ids[i]).append("<small id='small" + article_ids[i] + "'>" + "% known words.</small>" + data)
+            $.getJSON("analysis/" + article_ids[i] + "/" + $("#range").val(), function (results) {
+                $("#small" + results.fields.article).replaceWith("<small id='small" + results.fields.article + "'>" + results.fields.unknownWords + "</small>")
             })
         }
     }
+
+    $("#range").change(function() {
+        getAnalysis()
+    })
 
 </script>
 

@@ -36,9 +36,10 @@ def source(request, source_id):
 def analysis(request, article_id, range):
     article = get_object_or_404(Article, pk=article_id)
     try:
-        return HttpResponse(json.dumps(json.loads(serializers.serialize("json", [Analysis.objects.get(article=article, range=range),]))[0]))
+        return HttpResponse(json.dumps(json.loads(serializers.serialize("json", [Analysis.objects.get(article=article, range=range),]))[0]), content_type="application/json")
     except ObjectDoesNotExist:
         reader = Reader(article.language)
         result = Analysis(article=article, language=article.language, unknownWords=reader.get_stats(article, int(range)), range=int(range), wordcount=article.wordcount)
+        result.save()
 
-        return HttpResponse(json.dumps(json.loads(serializers.serialize("json", [result, ]))[0]))
+        return HttpResponse(json.dumps(json.loads(serializers.serialize("json", [result, ]))[0]), content_type="application/json")
