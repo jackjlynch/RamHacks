@@ -48,9 +48,10 @@ class Article(models.Model):
 
 class Analysis(models.Model):
     article = models.ForeignKey(Article)
-    wordList = models.ForeignKey(WordList)
     language = models.ForeignKey(Language)
     range = models.IntegerField(blank=True)
+    unknownWords = models.TextField()
+    wordcount = models.IntegerField()
 
     def __str__(self):
         return self.article + " " + self.wordList + " " + self.range

@@ -1,14 +1,15 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
-from foreignArticleFinder.models import Article, Source
+from foreignArticleFinder.models import Article, Source, Analysis, Language
 from foreignArticleFinder.crawler import Crawler
 from django.core import serializers
 import json
+from foreignArticleFinder.language_stats import Reader
 
 
 # Create your views here.
 def index(request):
-    return render(request, "foreignArticleFinder/index.html")
+    return render(request, "foreignArticleFinder/index.html", {"languages" : [l.languageName for l in Language.objects.all()], "ranges": [500, 1000, 1500, 2000]})
 
 
 def article(request, article_id=-1):
@@ -28,9 +29,11 @@ def sources(request):
 
 
 def source(request, source_id):
-    Crawler(get_object_or_404(Source, pk=source_id)).get_articles()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def analysis(request, article_id, wordlist_id, range):
-    pass
+def analysis(request, article_id, range):
+    article = get_object_or_404(Article, article_id)
+    reader = Reader(article.language)
+
+    result = Analysis(article=article, language=article.language, unknownWords=reader.get_stats(article, range), range=range, wordcount=article.wordcount)
