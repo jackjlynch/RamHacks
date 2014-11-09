@@ -85,6 +85,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
+STATIC_ROOT = "static"
+
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 TEMPLATE_DIRS = (
