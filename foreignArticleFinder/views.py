@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from foreignArticleFinder.language_stats import Reader
-from foreignArticleFinder.models import Article, WordList
+from foreignArticleFinder.models import Article, WordList, Source
+from foreignArticleFinder.crawler import Crawler
 
 # Create your views here.
 def index(request):
@@ -18,9 +19,25 @@ def article(request, article_id=-1):
 
 
 def articles(request):
-    output = ""
+    output = "<ul>"
 
     for article in Article.objects.all():
-        output += "<a href=\"" + str(article.id) + "\"/>" + article.title + "\n"
+        output += "<li><a href=\"" + str(article.id) + "\"/>" + article.title + "</li>\n"
+
+    output += "</ul>"
 
     return HttpResponse(output)
+
+
+def sources(request):
+    output = "<ul>"
+
+    for source in Source.objects.all():
+        output += "<li><a href=\"" + str(source.id) + "\"/>" + source.name + "</li>\n"
+
+    output += "</ul>"
+
+    return HttpResponse(output)
+
+def source(request, source_id):
+    Crawler(get_object_or_404(Source, pk=source_id)).get_articles()
