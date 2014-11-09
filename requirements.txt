@@ -1,2 +1,4 @@
 django
 feedparser
+dj-database-url
+dj-static
