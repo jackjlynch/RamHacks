@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse
-from foreignArticleFinder.language_stats import Reader
-from foreignArticleFinder.models import Article, WordList, Source
+from django.http import HttpResponseRedirect
+from foreignArticleFinder.models import Article, Source
 from foreignArticleFinder.crawler import Crawler
 
 
@@ -19,14 +18,9 @@ def articles(request):
 
 
 def sources(request):
-    output = "<ul>"
+    return render(request, "foreignArticleFinder/sources.html", {"sources": Source.objects.all()})
 
-    for source in Source.objects.all():
-        output += "<li><a href=\"" + str(source.id) + "\"/>" + source.name + "</li>\n"
-
-    output += "</ul>"
-
-    return HttpResponse(output)
 
 def source(request, source_id):
     Crawler(get_object_or_404(Source, pk=source_id)).get_articles()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

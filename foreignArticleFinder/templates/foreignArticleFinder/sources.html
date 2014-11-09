@@ -1,0 +1,16 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}">
+    <meta charset="UTF-8">
+    <title>Source List</title>
+</head>
+<body>
+<ul>
+{% for source in sources %}
+    <li><a href="{{ source.id }}">{{ source.name }}</a> <a href="{{ source.url }}">[url]</a></li>
+{%  endfor %}
+</ul>
+</body>
+</html>
