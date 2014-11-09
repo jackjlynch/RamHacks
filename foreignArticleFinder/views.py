@@ -1,13 +1,14 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from foreignArticleFinder.language_stats import Reader
 from foreignArticleFinder.models import Article, WordList, Source
 from foreignArticleFinder.crawler import Crawler
 
+
 # Create your views here.
 def index(request):
 
-    return("index")
+    return render(request, "index.html")
 
 def article(request, article_id=-1):
     chineseReader = Reader(WordList.objects.get(pk=1))
