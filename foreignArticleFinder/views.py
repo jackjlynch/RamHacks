@@ -7,27 +7,15 @@ from foreignArticleFinder.crawler import Crawler
 
 # Create your views here.
 def index(request):
+    return render(request, "foreignArticleFinder/index.html")
 
-    return render(request, "index.html")
 
 def article(request, article_id=-1):
-    chineseReader = Reader(WordList.objects.get(pk=1))
-    article = get_object_or_404(Article, pk=article_id)
-
-    num = chineseReader.get_stats(article, 1000)
-
-    return HttpResponse(article.title + "<br /><br />" + article.text + "<br/ ><br /><br />" + str(num) + " " + str(article.wordcount))
+    return render(request, "foreignArticleFinder/article.html", {"article": get_object_or_404(Article, pk=article_id)})
 
 
 def articles(request):
-    output = "<ul>"
-
-    for article in Article.objects.all():
-        output += "<li><a href=\"" + str(article.id) + "\"/>" + article.title + "</li>\n"
-
-    output += "</ul>"
-
-    return HttpResponse(output)
+    return render(request, "foreignArticleFinder/articles.html", {"articles": Article.objects.all()})
 
 
 def sources(request):

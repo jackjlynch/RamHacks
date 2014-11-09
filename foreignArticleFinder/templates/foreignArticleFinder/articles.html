@@ -1,0 +1,16 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}">
+    <meta charset="UTF-8">
+    <title>Article List</title>
+</head>
+<body>
+<ul>
+{% for article in articles %}
+    <li><a href="{{ article.id }}">{{ article.title }}</a></li>
+{%  endfor %}
+</ul>
+</body>
+</html>
