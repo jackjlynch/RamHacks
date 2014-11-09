@@ -1,8 +1,23 @@
 from django.db import models
 
+class WordList(models.Model):
+    name = models.TextField()
+    ordered = models.BooleanField(default=True)
+    words = models.TextField()
+    separator = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+    def get_words(self):
+        return self.words
+
+
 class Language(models.Model):
     languageName = models.TextField()
     latinAlphabet = models.BooleanField(default=True)
+    wordList = models.ForeignKey(WordList)
 
     def __str__(self):
         return self.languageName
@@ -31,17 +46,11 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-
-class WordList(models.Model):
-    name = models.TextField()
-    ordered = models.BooleanField(default=True)
-    words = models.TextField()
-    separator = models.TextField(blank=True)
+class Analysis(models.Model):
+    article = models.ForeignKey(Article)
+    wordList = models.ForeignKey(WordList)
     language = models.ForeignKey(Language)
+    range = models.IntegerField(blank=True)
 
     def __str__(self):
-        return self.name
-
-
-    def get_words(self):
-        return self.words
+        return self.article + " " + self.wordList + " " + self.range

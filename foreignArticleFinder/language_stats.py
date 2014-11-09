@@ -1,9 +1,9 @@
 from foreignArticleFinder.models import Language, WordList, Article
 
 class Reader():
-    def __init__(self, wordList):
-        self.wordList = wordList
-        self.language = wordList.language
+    def __init__(self, language):
+        self.language = language
+        self.wordList = language.wordList
 
 
     def get_stats(self, article, range=None):
@@ -16,9 +16,8 @@ class Reader():
         known = 0
         if not self.language.latinAlphabet:
             for letter in article.text:
-                if letter.lower() not in "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*\n\t(),'\"。 ·，“”（）、.><,/\\[]{}|`~-=_+" and letter not in words:
+                if letter.lower() not in "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*\n\t(),'\"。 ·，“”（）：、.><,/\\[；]{}|`~-=_+《》:‘—" and letter not in words:
                     foreignChars += letter
-                    print(letter)
                 else:
                     known += 1
 

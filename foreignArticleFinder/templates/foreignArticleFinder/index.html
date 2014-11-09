@@ -14,7 +14,8 @@
         $.each(data, function(key, value) {
             $("#test").append("<div class='row'><div class='col-lg-12'><blockquote id='" + value.pk + "'><h1>" + value.fields.title + "</h1><br /></blockquote></div></div>")
             $.getJSON("articles/" + value.pk, function(article) {
-                $("#" + value.pk).append(article.fields.text)
+                $("#" + value.pk).append(article.fields.text + "<small>" + Math.floor(article.fields.wordsIn500.length / article.fields.wordcount * 100) + "% known words.</small>")
+                console.log(article)
             })
         })
     })

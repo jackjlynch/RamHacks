@@ -30,3 +30,7 @@ def sources(request):
 def source(request, source_id):
     Crawler(get_object_or_404(Source, pk=source_id)).get_articles()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def analysis(request, article_id, wordlist_id, range):
+    pass
