@@ -6,7 +6,21 @@
     <meta charset="UTF-8">
     <title>index</title>
 </head>
+<script type="text/javascript" src="{% static "js/jquery-2.1.1.js" %}"></script>
 <body>
-<h1>test index</h1>
+<h1>Articles</h1>
+<script type="text/javascript">
+    $.getJSON("articles", function(data) {
+        $.each(data, function(key, value) {
+            $("#test").append("<div class='row'><div class='col-lg-12'><blockquote id='" + value.pk + "'><h1>" + value.fields.title + "</h1><br /></blockquote></div></div>")
+            $.getJSON("articles/" + value.pk, function(article) {
+                $("#" + value.pk).append(article.fields.text)
+            })
+        })
+    })
+
+</script>
+
+<div id="test" class="container"></div>
 </body>
 </html>
