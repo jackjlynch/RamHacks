@@ -1,6 +1,7 @@
--django
--dj-database-url
--dj-static
--django-toolbelt
--gunicorn
--whitenoise
+django
+feedparser
+dj-database-url
+dj-static
+django-toolbelt
+gunicorn
+whitenoise
