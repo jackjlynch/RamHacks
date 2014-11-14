@@ -4,3 +4,4 @@
 -dj-static
 -django-toolbelt
 -gunicorn
+-whitenoise
