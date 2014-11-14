@@ -10,9 +10,3 @@ urlpatterns = patterns('',
     url(r'^finder/', include('foreignArticleFinder.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
-
-
-#static files
-urlpatterns += patterns('',
-        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    )
