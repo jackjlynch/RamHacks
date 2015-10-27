@@ -16,13 +16,15 @@ class Reader():
         known = 0
         if not self.language.latinAlphabet:
             for letter in article.text:
-                if letter.lower() not in "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*\n\t(),'\"。 ·，“”（）：、.><,/\\[；]{}|`~-=_+《》:‘—" and letter not in words:
+                if letter.lower() not in "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*\n\t(),'\"。 ·，“”（）：、.><,/\\[；]{}|`~-=_+《》:‘—"\
+                 and letter not in words:
                     foreignChars += letter
                 else:
                     known += 1
 
         else:
             for word in article.text.split(" "):
+                #support for languages with spaces not yet implemented
                 pass
 
         if article.wordcount is None:
