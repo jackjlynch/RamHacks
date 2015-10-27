@@ -53,31 +53,31 @@
 <br/>
 </div>
 <script type="text/javascript">
-    var article_ids = []
+    var article_ids = [];
     $.getJSON("articles", function (data) {
         $.each(data, function (key, value) {
-            article_ids.push(value.pk)
+            article_ids.push(value.pk);
             $("#test").append("<div class='row'><div class='col-lg-12'><blockquote id='" + value.pk + "'><h1>" + value.fields.title +
-                    "</h1><br /><div id='article" + value.pk + "'></div><small id='small" + value.pk + "'></small></blockquote></div></div>")
+                    "</h1><br /><div id='article" + value.pk + "'></div><small id='small" + value.pk + "'></small></blockquote></div></div>");
             $.getJSON("articles/" + value.pk, function (article) {
-                $("#article" + value.pk).append(article.fields.text)
-            })
-        })
-        getAnalysis()
-    })
+                $("#article" + value.pk).append(article.fields.text);
+            });
+        });
+        getAnalysis();
+    });
 
 
     function getAnalysis() {
         for (i = 0; i < article_ids.length; i++)  {
             $.getJSON("analysis/" + article_ids[i] + "/" + $("#range").val(), function (results) {
-                $("#small" + results.fields.article).replaceWith("<small id='small" + results.fields.article + "'>" + results.fields.unknownWords + "</small>")
-            })
+                $("#small" + results.fields.article).replaceWith("<small id='small" + results.fields.article + "'>" + results.fields.unknownWords + "</small>");
+            });
         }
     }
 
     $("#range").change(function() {
-        getAnalysis()
-    })
+        getAnalysis();
+    });
 
 </script>
 
